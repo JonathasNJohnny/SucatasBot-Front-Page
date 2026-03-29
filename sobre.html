@@ -5,127 +5,551 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Sobre - Sucatas Bot</title>
 
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;700&display=swap"
       rel="stylesheet"
     />
 
+    <script>
+      (() => {
+        const savedTheme = localStorage.getItem("theme");
+        if (savedTheme === "light" || savedTheme === "dark") {
+          document.documentElement.setAttribute("data-theme", savedTheme);
+        }
+      })();
+    </script>
+
     <style>
+      :root {
+        --bg: #0f1115;
+        --bg-accent: #171a21;
+
+        --panel: #161a22;
+        --panel-strong: #1d2230;
+        --card: #181c25;
+
+        --line: #2a2f3a;
+
+        --text: #f5f7fa;
+        --muted: #9aa3b2;
+        --text-soft: #c2c8d6;
+        --text-inverse: #ffffff;
+        --text-on-ok: #ffffff;
+
+        --ok: #3ecf8e;
+        --ok-strong: #2fbf7c;
+
+        --warn: #e6b450;
+
+        --danger: #ff6b6b;
+        --danger-soft: #ff9d9d;
+        --error: #ff6b6b;
+
+        --button-save: #3ecf8e;
+        --button-primary: #5b7cff;
+        --button-primary-alt: #6a88ff;
+        --button-stop: #c45454;
+
+        --input-bg: #141821;
+
+        --surface-subtle: #12161d;
+        --surface-deep: #0d1016;
+
+        --switch-off: #5f6775;
+        --switch-knob: #ffffff;
+
+        --brand-grad-start: #5b7cff;
+        --brand-grad-end: #8aa4ff;
+
+        --pack-main: #1f356d;
+        --pack-accent: #4b73f9;
+        --pack-edge: #8ca3ff;
+        --pack-label: #f5f8ff;
+        --card-main: #211e31;
+        --card-accent: #465de0;
+        --card-edge: #9fb4ff;
+        --card-text: #ffffff;
+
+        --shadow-strong: 0 18px 40px rgba(0, 0, 0, 0.45);
+        --shadow-navbar: 0 4px 20px rgba(0, 0, 0, 0.35);
+        --shadow-text-strong: 0 2px 10px rgba(0, 0, 0, 0.7);
+      }
+
+      html[data-theme="light"] {
+        --bg: #f6f8fc;
+        --bg-accent: #eef2fb;
+
+        --panel: #ffffff;
+        --panel-strong: #f1f4fb;
+        --card: #ffffff;
+
+        --line: #d8deea;
+
+        --text: #1c2333;
+        --muted: #6b7385;
+        --text-soft: #8c94a8;
+        --text-inverse: #ffffff;
+        --text-on-ok: #ffffff;
+
+        --ok: #2fbf7c;
+        --ok-strong: #27a86d;
+
+        --warn: #b98900;
+
+        --danger: #d64545;
+        --danger-soft: #f04747;
+        --error: #d64545;
+
+        --button-save: #3ecf8e;
+        --button-primary: #5b7cff;
+        --button-primary-alt: #6a88ff;
+        --button-stop: #c45454;
+
+        --input-bg: #ffffff;
+
+        --surface-subtle: #f0f3fa;
+        --surface-deep: #e7ecf7;
+
+        --switch-off: #b0b7c6;
+        --switch-knob: #ffffff;
+
+        --brand-grad-start: #2f57f8;
+        --brand-grad-end: #6183ff;
+
+        --pack-main: #4d6dc7;
+        --pack-accent: #6f92ff;
+        --pack-edge: #90a9ff;
+        --pack-label: #ffffff;
+        --card-main: #f3f6ff;
+        --card-accent: #7b95ff;
+        --card-edge: #4a66d8;
+        --card-text: #1e2e6b;
+
+        --shadow-strong: 0 10px 25px rgba(30, 60, 120, 0.12);
+        --shadow-navbar: 0 4px 18px rgba(30, 60, 120, 0.15);
+        --shadow-text-strong: 0 2px 8px rgba(0, 0, 0, 0.25);
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
       body {
         margin: 0;
-        font-family: "Sora", sans-serif;
-        background: #06141b;
-        color: #f4fbff;
+        min-height: 100vh;
+        font-family: "Manrope", sans-serif;
+        color: var(--text);
+        background:
+          radial-gradient(
+            circle at 8% 2%,
+            rgba(106, 136, 255, 0.21),
+            transparent 42%
+          ),
+          radial-gradient(
+            circle at 90% 0%,
+            rgba(230, 180, 80, 0.13),
+            transparent 32%
+          ),
+          linear-gradient(
+            160deg,
+            var(--surface-deep) 0%,
+            var(--bg) 45%,
+            var(--bg-accent) 100%
+          );
       }
 
-      nav {
+      .page {
+        width: min(1120px, 92vw);
+        margin: 0 auto;
+        padding-bottom: 72px;
+      }
+
+      .topbar {
+        margin-top: 22px;
+        border: 1px solid var(--line);
+        background: color-mix(in srgb, var(--panel) 86%, transparent);
+        backdrop-filter: blur(8px);
+        border-radius: 18px;
+        padding: 14px 18px;
         display: flex;
+        align-items: center;
         justify-content: space-between;
-        padding: 20px 40px;
-        background: #11212d;
+        gap: 12px;
       }
 
-      nav a {
-        color: #f4fbff;
-        text-decoration: none;
-        margin-left: 20px;
-      }
-
-      .selected {
-        font-weight: bold;
-      }
-
-      .container {
-        max-width: 900px;
-        margin: auto;
-        padding: 40px 20px;
-      }
-
-      .profile {
+      .brand {
         display: flex;
-        gap: 20px;
+        align-items: center;
+        gap: 10px;
+        font-family: "Space Grotesk", sans-serif;
+        font-weight: 700;
+        letter-spacing: 0.5px;
+      }
+
+      .brand-dot {
+        width: 12px;
+        height: 12px;
+        border-radius: 50%;
+        background: linear-gradient(
+          140deg,
+          var(--brand-grad-start),
+          var(--brand-grad-end)
+        );
+        box-shadow: 0 0 18px
+          color-mix(in srgb, var(--brand-grad-start) 70%, transparent);
+      }
+
+      .nav-actions {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .nav-links {
+        display: flex;
+        gap: 8px;
+      }
+
+      .nav-links a {
+        text-decoration: none;
+        color: var(--muted);
+        padding: 9px 13px;
+        border-radius: 10px;
+        font-weight: 700;
+        transition:
+          background 180ms ease,
+          color 180ms ease;
+      }
+
+      .nav-links a:hover,
+      .nav-links a.selected {
+        background: color-mix(in srgb, var(--button-primary) 18%, transparent);
+        color: var(--text);
+      }
+
+      .theme-toggle {
+        width: 42px;
+        height: 42px;
+        border-radius: 12px;
+        border: 1px solid var(--line);
+        background: var(--surface-subtle);
+        color: var(--text);
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        transition:
+          transform 180ms ease,
+          background 180ms ease;
+      }
+
+      .theme-toggle:hover {
+        transform: translateY(-2px);
+        background: var(--panel-strong);
+      }
+
+      .theme-toggle .icon-sun,
+      .theme-toggle .icon-moon {
+        line-height: 1;
+        font-size: 1.05rem;
+      }
+
+      .theme-toggle .icon-sun {
+        display: none;
+      }
+
+      html[data-theme="light"] .theme-toggle .icon-sun {
+        display: inline;
+      }
+
+      html[data-theme="light"] .theme-toggle .icon-moon {
+        display: none;
+      }
+
+      .about-grid {
+        margin-top: 24px;
+        display: grid;
+        grid-template-columns: 1.1fr 1fr;
+        gap: 18px;
+      }
+
+      .panel {
+        border: 1px solid var(--line);
+        background: linear-gradient(165deg, var(--panel-strong), var(--panel));
+        border-radius: 24px;
+        padding: 26px;
+        animation: reveal-up 700ms ease;
+        box-shadow: var(--shadow-strong);
+      }
+
+      .profile-head {
+        display: flex;
+        gap: 16px;
+        align-items: center;
         flex-wrap: wrap;
       }
 
-      .photo {
-        width: 150px;
-        height: 150px;
-        border-radius: 12px;
+      .avatar {
+        width: 104px;
+        height: 104px;
+        border-radius: 18px;
         overflow: hidden;
-        background: #11212d;
+        border: 1px solid var(--line);
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+        flex-shrink: 0;
       }
 
-      .photo img {
+      .avatar img {
         width: 100%;
         height: 100%;
         object-fit: cover;
         display: block;
       }
 
-      .links a {
-        display: inline-block;
-        margin-right: 10px;
-        color: #2ec4b6;
+      .eyebrow {
+        margin: 0;
+        font-size: 0.78rem;
+        text-transform: uppercase;
+        letter-spacing: 0.13em;
+        color: var(--text-soft);
+      }
+
+      h1 {
+        margin: 4px 0;
+        font-family: "Space Grotesk", sans-serif;
+        font-size: clamp(1.7rem, 4vw, 2.45rem);
+      }
+
+      .location {
+        margin: 0;
+        color: var(--muted);
+      }
+
+      .links {
+        margin-top: 16px;
+        display: flex;
+        gap: 10px;
+        flex-wrap: wrap;
+      }
+
+      .link-btn {
+        text-decoration: none;
+        color: var(--text);
+        border-radius: 11px;
+        border: 1px solid var(--line);
+        background: var(--surface-subtle);
+        padding: 10px 14px;
+        font-size: 0.9rem;
+        font-weight: 700;
+        transition:
+          transform 180ms ease,
+          background 180ms ease;
+      }
+
+      .link-btn:hover {
+        transform: translateY(-2px);
+        background: color-mix(
+          in srgb,
+          var(--button-primary) 14%,
+          var(--surface-subtle)
+        );
+      }
+
+      .bio {
+        margin-top: 16px;
+        color: var(--text-soft);
+        line-height: 1.7;
+      }
+
+      .stack-title {
+        margin: 0 0 12px;
+        font-family: "Space Grotesk", sans-serif;
+      }
+
+      .tag-grid {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 9px;
+      }
+
+      .tag {
+        background: var(--card);
+        border: 1px solid var(--line);
+        padding: 8px 11px;
+        border-radius: 999px;
+        font-size: 0.84rem;
+        color: var(--text-soft);
+      }
+
+      .quote {
+        margin-top: 20px;
+        padding: 14px 16px;
+        border-left: 3px solid var(--button-primary);
+        background: color-mix(in srgb, var(--button-primary) 13%, transparent);
+        border-radius: 0 12px 12px 0;
+        color: var(--text);
+      }
+
+      @keyframes reveal-up {
+        from {
+          opacity: 0;
+          transform: translateY(12px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      @media (max-width: 900px) {
+        .about-grid {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      @media (max-width: 640px) {
+        .topbar {
+          align-items: flex-start;
+          flex-wrap: wrap;
+        }
+
+        .nav-actions {
+          width: 100%;
+          justify-content: space-between;
+        }
+
+        .panel {
+          border-radius: 18px;
+          padding: 22px;
+        }
       }
     </style>
   </head>
 
   <body>
-    <nav>
-      <div><strong>Sucatas Bot</strong></div>
-      <div>
-        <a href="index.html">Início</a>
-        <a href="sobre.html" class="selected">Sobre</a>
-      </div>
-    </nav>
-
-    <div class="container">
-      <h1>Sobre mim</h1>
-
-      <div class="profile">
-        <div class="photo">
-          <img
-            src="https://scontent.fcpv16-1.fna.fbcdn.net/v/t39.30808-6/505993531_9971988206252091_9021221268027170518_n.jpg?_nc_cat=105&ccb=1-7&_nc_sid=1d70fc&_nc_eui2=AeHFOete9_lEkPpgitko0X_ZdjMA6NmdbPl2MwDo2Z1s-Q5n9DIAHQQgiVSheq8ywQuWIBVzlH2eaO0yH8-cAmv3&_nc_ohc=7m4uLgB4SVMQ7kNvwErztCK&_nc_oc=AdpnsLTdSpHQJ4wYrGXWc6yTxfTcVTuUR_ewjE1h6bFHZZy_h5pNTidvi04cn7VGJgsxuS-vklw1zHBg9pMYH-MI&_nc_zt=23&_nc_ht=scontent.fcpv16-1.fna&_nc_gid=ulX3d-PxVuMxB96KONo6hw&_nc_ss=7a32e&oh=00_Afxm-Ovx9pAmqRHHeNYP1RWSDtKn5AGaBdQoSavVWyhsJQ&oe=69CE11BA"
-            alt="Foto de perfil de Jonathas Nóbrega"
-          />
+    <div class="page">
+      <nav class="topbar">
+        <div class="brand">
+          <span class="brand-dot"></span>
+          <span>Sucatas Bot</span>
         </div>
 
-        <div>
-          <p><strong>Jonathas Nóbrega</strong></p>
-          <p>Santa Luzia - PB</p>
+        <div class="nav-actions">
+          <div class="nav-links">
+            <a href="index.html">Início</a>
+            <a href="sobre.html" class="selected">Sobre</a>
+          </div>
+
+          <button
+            id="theme-toggle"
+            class="theme-toggle"
+            type="button"
+            aria-label="Ativar modo claro"
+            title="Alternar tema"
+          >
+            <span class="icon-sun">☀</span>
+            <span class="icon-moon">☾</span>
+          </button>
+        </div>
+      </nav>
+
+      <section class="about-grid">
+        <article class="panel">
+          <div class="profile-head">
+            <div class="avatar">
+              <img
+                src="https://scontent.fcpv16-1.fna.fbcdn.net/v/t39.30808-6/505993531_9971988206252091_9021221268027170518_n.jpg?_nc_cat=105&ccb=1-7&_nc_sid=1d70fc&_nc_eui2=AeHFOete9_lEkPpgitko0X_ZdjMA6NmdbPl2MwDo2Z1s-Q5n9DIAHQQgiVSheq8ywQuWIBVzlH2eaO0yH8-cAmv3&_nc_ohc=7m4uLgB4SVMQ7kNvwErztCK&_nc_oc=AdpnsLTdSpHQJ4wYrGXWc6yTxfTcVTuUR_ewjE1h6bFHZZy_h5pNTidvi04cn7VGJgsxuS-vklw1zHBg9pMYH-MI&_nc_zt=23&_nc_ht=scontent.fcpv16-1.fna&_nc_gid=ulX3d-PxVuMxB96KONo6hw&_nc_ss=7a32e&oh=00_Afxm-Ovx9pAmqRHHeNYP1RWSDtKn5AGaBdQoSavVWyhsJQ&oe=69CE11BA"
+                alt="Foto de perfil de Jonathas Nobrega"
+              />
+            </div>
+
+            <div>
+              <p class="eyebrow">Criador do projeto</p>
+              <h1>Jonathas Nobrega</h1>
+              <p class="location">Santa Luzia - PB</p>
+            </div>
+          </div>
 
           <div class="links">
             <a
+              class="link-btn"
               href="https://www.linkedin.com/in/jonathasnjohnny/"
               target="_blank"
               rel="noopener noreferrer"
               >LinkedIn</a
             >
             <a
+              class="link-btn"
               href="https://github.com/JonathasNJohnny"
               target="_blank"
               rel="noopener noreferrer"
               >GitHub</a
             >
           </div>
-        </div>
-      </div>
 
-      <p style="margin-top: 20px">
-        Sou estudante de Bacharelado em Ciência da Computação na UEPB – Campus
-        Patos. Possuo experiência com Python, Java, React JS, NodeJS, HTML, CSS,
-        JavaScript e Flask, além de estudos em Kotlin e backend moderno.
-      </p>
+          <p class="bio">
+            Estudante de Bacharelado em Ciencia da Computacao na UEPB - Campus
+            Patos. Trabalho com foco em qualidade de codigo, boa comunicacao
+            entre front e back e evolucao continua de produto.
+          </p>
+        </article>
 
-      <p>
-        Tenho interesse em arquitetura de software, APIs REST, boas práticas com
-        Git, bancos de dados e ferramentas como Docker.
-      </p>
+        <article class="panel">
+          <h2 class="stack-title">Stack e interesses</h2>
+          <div class="tag-grid">
+            <span class="tag">Python</span>
+            <span class="tag">Java</span>
+            <span class="tag">React</span>
+            <span class="tag">Node.js</span>
+            <span class="tag">Flask</span>
+            <span class="tag">Docker</span>
+            <span class="tag">APIs REST</span>
+            <span class="tag">Arquitetura</span>
+            <span class="tag">Banco de dados</span>
+            <span class="tag">Git</span>
+          </div>
 
-      <p>
-        Meu objetivo é construir uma carreira sólida como desenvolvedor, criando
-        soluções eficientes, escaláveis e bem estruturadas.
-      </p>
+          <p class="bio">
+            Tenho interesse em arquitetura de software e em construir solucoes
+            escalaveis, mantendo legibilidade e boas praticas desde o prototipo
+            ate a entrega final.
+          </p>
+
+          <div class="quote">
+            Objetivo: construir produtos digitais eficientes e bem estruturados,
+            com impacto real na experiencia do usuario.
+          </div>
+        </article>
+      </section>
     </div>
+
+    <script>
+      const themeToggle = document.getElementById("theme-toggle");
+
+      const updateThemeToggleLabel = () => {
+        const isLight =
+          document.documentElement.getAttribute("data-theme") === "light";
+        themeToggle.setAttribute(
+          "aria-label",
+          isLight ? "Ativar modo escuro" : "Ativar modo claro",
+        );
+      };
+
+      updateThemeToggleLabel();
+
+      themeToggle.addEventListener("click", () => {
+        const currentTheme =
+          document.documentElement.getAttribute("data-theme") === "light"
+            ? "light"
+            : "dark";
+        const nextTheme = currentTheme === "light" ? "dark" : "light";
+
+        document.documentElement.setAttribute("data-theme", nextTheme);
+        localStorage.setItem("theme", nextTheme);
+        updateThemeToggleLabel();
+      });
+    </script>
   </body>
 </html>

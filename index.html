@@ -5,117 +5,561 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Sucatas Bot</title>
 
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;700&display=swap"
       rel="stylesheet"
     />
 
+    <script>
+      (() => {
+        const savedTheme = localStorage.getItem("theme");
+        if (savedTheme === "light" || savedTheme === "dark") {
+          document.documentElement.setAttribute("data-theme", savedTheme);
+        }
+      })();
+    </script>
+
     <style>
+      :root {
+        --bg: #0f1115;
+        --bg-accent: #171a21;
+
+        --panel: #161a22;
+        --panel-strong: #1d2230;
+        --card: #181c25;
+
+        --line: #2a2f3a;
+
+        --text: #f5f7fa;
+        --muted: #9aa3b2;
+        --text-soft: #c2c8d6;
+        --text-inverse: #ffffff;
+        --text-on-ok: #ffffff;
+
+        --ok: #3ecf8e;
+        --ok-strong: #2fbf7c;
+
+        --warn: #e6b450;
+
+        --danger: #ff6b6b;
+        --danger-soft: #ff9d9d;
+        --error: #ff6b6b;
+
+        --button-save: #3ecf8e;
+        --button-primary: #5b7cff;
+        --button-primary-alt: #6a88ff;
+        --button-stop: #c45454;
+
+        --input-bg: #141821;
+
+        --surface-subtle: #12161d;
+        --surface-deep: #0d1016;
+
+        --switch-off: #5f6775;
+        --switch-knob: #ffffff;
+
+        --brand-grad-start: #5b7cff;
+        --brand-grad-end: #8aa4ff;
+
+        --pack-main: #1f356d;
+        --pack-accent: #4b73f9;
+        --pack-edge: #8ca3ff;
+        --pack-label: #f5f8ff;
+        --card-main: #211e31;
+        --card-accent: #465de0;
+        --card-edge: #9fb4ff;
+        --card-text: #ffffff;
+
+        --shadow-strong: 0 18px 40px rgba(0, 0, 0, 0.45);
+        --shadow-navbar: 0 4px 20px rgba(0, 0, 0, 0.35);
+        --shadow-text-strong: 0 2px 10px rgba(0, 0, 0, 0.7);
+      }
+
+      html[data-theme="light"] {
+        --bg: #f6f8fc;
+        --bg-accent: #eef2fb;
+
+        --panel: #ffffff;
+        --panel-strong: #f1f4fb;
+        --card: #ffffff;
+
+        --line: #d8deea;
+
+        --text: #1c2333;
+        --muted: #6b7385;
+        --text-soft: #8c94a8;
+        --text-inverse: #ffffff;
+        --text-on-ok: #ffffff;
+
+        --ok: #2fbf7c;
+        --ok-strong: #27a86d;
+
+        --warn: #b98900;
+
+        --danger: #d64545;
+        --danger-soft: #f04747;
+        --error: #d64545;
+
+        --button-save: #3ecf8e;
+        --button-primary: #5b7cff;
+        --button-primary-alt: #6a88ff;
+        --button-stop: #c45454;
+
+        --input-bg: #ffffff;
+
+        --surface-subtle: #f0f3fa;
+        --surface-deep: #e7ecf7;
+
+        --switch-off: #b0b7c6;
+        --switch-knob: #ffffff;
+
+        --brand-grad-start: #2f57f8;
+        --brand-grad-end: #6183ff;
+
+        --pack-main: #4d6dc7;
+        --pack-accent: #6f92ff;
+        --pack-edge: #90a9ff;
+        --pack-label: #ffffff;
+        --card-main: #f3f6ff;
+        --card-accent: #7b95ff;
+        --card-edge: #4a66d8;
+        --card-text: #1e2e6b;
+
+        --shadow-strong: 0 10px 25px rgba(30, 60, 120, 0.12);
+        --shadow-navbar: 0 4px 18px rgba(30, 60, 120, 0.15);
+        --shadow-text-strong: 0 2px 8px rgba(0, 0, 0, 0.25);
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
       body {
         margin: 0;
-        font-family: "Sora", sans-serif;
-        background: #06141b;
-        color: #f4fbff;
+        min-height: 100vh;
+        font-family: "Manrope", sans-serif;
+        color: var(--text);
+        background:
+          radial-gradient(
+            circle at 10% 0%,
+            rgba(106, 136, 255, 0.22),
+            transparent 45%
+          ),
+          radial-gradient(
+            circle at 90% 5%,
+            rgba(230, 180, 80, 0.14),
+            transparent 32%
+          ),
+          linear-gradient(
+            160deg,
+            var(--surface-deep) 0%,
+            var(--bg) 45%,
+            var(--bg-accent) 100%
+          );
       }
 
-      nav {
+      .page {
+        width: min(1120px, 92vw);
+        margin: 0 auto;
+        padding-bottom: 72px;
+      }
+
+      .topbar {
+        margin-top: 22px;
+        border: 1px solid var(--line);
+        background: color-mix(in srgb, var(--panel) 86%, transparent);
+        backdrop-filter: blur(8px);
+        border-radius: 18px;
+        padding: 14px 18px;
         display: flex;
+        align-items: center;
         justify-content: space-between;
-        padding: 20px 40px;
-        background: #11212d;
+        gap: 12px;
       }
 
-      nav a {
-        color: #f4fbff;
+      .brand {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        font-family: "Space Grotesk", sans-serif;
+        font-weight: 700;
+        letter-spacing: 0.5px;
+      }
+
+      .brand-dot {
+        width: 12px;
+        height: 12px;
+        border-radius: 50%;
+        background: linear-gradient(
+          140deg,
+          var(--brand-grad-start),
+          var(--brand-grad-end)
+        );
+        box-shadow: 0 0 18px
+          color-mix(in srgb, var(--brand-grad-start) 70%, transparent);
+      }
+
+      .nav-actions {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .nav-links {
+        display: flex;
+        gap: 8px;
+      }
+
+      .nav-links a {
         text-decoration: none;
-        margin-left: 20px;
+        color: var(--muted);
+        padding: 9px 13px;
+        border-radius: 10px;
+        font-weight: 700;
+        transition:
+          background 180ms ease,
+          color 180ms ease;
+      }
+
+      .nav-links a:hover,
+      .nav-links a.selected {
+        background: color-mix(in srgb, var(--button-primary) 18%, transparent);
+        color: var(--text);
+      }
+
+      .theme-toggle {
+        width: 42px;
+        height: 42px;
+        border-radius: 12px;
+        border: 1px solid var(--line);
+        background: var(--surface-subtle);
+        color: var(--text);
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        transition:
+          transform 180ms ease,
+          background 180ms ease;
+      }
+
+      .theme-toggle:hover {
+        transform: translateY(-2px);
+        background: var(--panel-strong);
+      }
+
+      .theme-toggle .icon-sun,
+      .theme-toggle .icon-moon {
+        line-height: 1;
+        font-size: 1.05rem;
+      }
+
+      .theme-toggle .icon-sun {
+        display: none;
+      }
+
+      html[data-theme="light"] .theme-toggle .icon-sun {
+        display: inline;
+      }
+
+      html[data-theme="light"] .theme-toggle .icon-moon {
+        display: none;
       }
 
       .hero {
-        text-align: center;
-        padding: 80px 20px;
+        margin-top: 24px;
+        display: grid;
+        grid-template-columns: 1.3fr 0.9fr;
+        gap: 20px;
       }
 
-      .selected {
-        font-weight: bold;
+      .hero-main,
+      .hero-side {
+        border: 1px solid var(--line);
+        background: linear-gradient(165deg, var(--panel-strong), var(--panel));
+        border-radius: 24px;
+        padding: 28px;
+        box-shadow: var(--shadow-strong);
       }
 
-      .hero h1 {
-        font-size: 42px;
-        margin-bottom: 10px;
+      .hero-main {
+        animation: reveal-up 700ms ease;
       }
 
-      .hero p {
-        color: #bdd0dc;
-        max-width: 600px;
-        margin: auto;
+      .hero-side {
+        animation: reveal-up 900ms ease;
       }
 
-      .download {
-        margin-top: 30px;
+      .eyebrow {
+        width: fit-content;
+        font-size: 0.77rem;
+        text-transform: uppercase;
+        letter-spacing: 0.13em;
+        color: var(--text-soft);
+        background: color-mix(in srgb, var(--line) 55%, transparent);
+        border-radius: 999px;
+        padding: 7px 12px;
+      }
+
+      h1 {
+        margin: 16px 0 10px;
+        font-family: "Space Grotesk", sans-serif;
+        font-size: clamp(2rem, 5vw, 3.25rem);
+        line-height: 1.05;
+        max-width: 15ch;
+      }
+
+      .lead {
+        margin: 0;
+        color: var(--muted);
+        font-size: 1.04rem;
+        max-width: 58ch;
+      }
+
+      .cta-group {
+        margin-top: 26px;
         display: flex;
-        gap: 12px;
-        justify-content: center;
         flex-wrap: wrap;
+        gap: 12px;
       }
 
       .btn {
-        padding: 14px 20px;
-        background: #2ec4b6;
-        color: #07222f;
-        border-radius: 10px;
         text-decoration: none;
-        font-weight: bold;
-      }
-
-      .section {
-        padding: 60px 20px;
-        max-width: 900px;
-        margin: auto;
-      }
-
-      .card {
-        background: #11212d;
-        padding: 20px;
+        font-weight: 800;
+        font-size: 0.92rem;
         border-radius: 12px;
+        padding: 13px 16px;
+        transition:
+          transform 180ms ease,
+          opacity 180ms ease;
+      }
+
+      .btn:hover {
+        transform: translateY(-2px);
+        opacity: 0.92;
+      }
+
+      .btn-primary {
+        color: var(--text-inverse);
+        background: linear-gradient(
+          135deg,
+          var(--button-primary),
+          var(--button-primary-alt)
+        );
+      }
+
+      .btn-secondary {
+        color: var(--text);
+        border: 1px solid var(--line);
+        background: var(--surface-subtle);
+      }
+
+      .stats {
         margin-top: 20px;
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 10px;
+      }
+
+      .stat {
+        border-radius: 12px;
+        border: 1px solid var(--line);
+        background: var(--card);
+        padding: 12px;
+      }
+
+      .stat-value {
+        font-family: "Space Grotesk", sans-serif;
+        font-size: 1.15rem;
+      }
+
+      .stat-label {
+        margin-top: 5px;
+        color: var(--muted);
+        font-size: 0.82rem;
+      }
+
+      .mini-title {
+        margin: 0 0 14px;
+        font-weight: 800;
+      }
+
+      .check-list {
+        margin: 0;
+        padding-left: 18px;
+        color: var(--text-soft);
+        display: grid;
+        gap: 10px;
+        line-height: 1.45;
+      }
+
+      .features {
+        margin-top: 22px;
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 14px;
+      }
+
+      .feature-card {
+        background: linear-gradient(180deg, var(--panel-strong), var(--card));
+        border: 1px solid var(--line);
+        border-radius: 16px;
+        padding: 18px;
+        animation: reveal-up 1100ms ease;
+        box-shadow: var(--shadow-strong);
+      }
+
+      .feature-card h3 {
+        margin: 0;
+        font-family: "Space Grotesk", sans-serif;
+        font-size: 1.04rem;
+      }
+
+      .feature-card p {
+        margin: 10px 0 0;
+        color: var(--muted);
+        font-size: 0.95rem;
+        line-height: 1.45;
+      }
+
+      @keyframes reveal-up {
+        from {
+          opacity: 0;
+          transform: translateY(12px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      @media (max-width: 920px) {
+        .hero {
+          grid-template-columns: 1fr;
+        }
+
+        .features {
+          grid-template-columns: 1fr 1fr;
+        }
+      }
+
+      @media (max-width: 640px) {
+        .topbar {
+          align-items: flex-start;
+          flex-wrap: wrap;
+        }
+
+        .nav-actions {
+          width: 100%;
+          justify-content: space-between;
+        }
+
+        .stats,
+        .features {
+          grid-template-columns: 1fr;
+        }
+
+        .hero-main,
+        .hero-side {
+          padding: 22px;
+          border-radius: 18px;
+        }
       }
     </style>
   </head>
 
   <body>
-    <nav>
-      <div><strong>Sucatas Bot</strong></div>
-      <div>
-        <a href="index.html" class="selected">Início</a>
-        <a href="sobre.html">Sobre</a>
-      </div>
-    </nav>
+    <div class="page">
+      <nav class="topbar">
+        <div class="brand">
+          <span class="brand-dot"></span>
+          <span>Sucatas Bot</span>
+        </div>
 
-    <section class="hero">
-      <h1>Sucatas Bot</h1>
-      <p>
-        Um bot inteligente para Twitch que gerencia sorteios automaticamente
-        direto no chat, tornando suas lives mais interativas e organizadas.
-      </p>
+        <div class="nav-actions">
+          <div class="nav-links">
+            <a href="index.html" class="selected">Início</a>
+            <a href="sobre.html">Sobre</a>
+          </div>
 
-      <div class="download">
-        <a id="download-link" class="btn">Download Versão .Exe</a>
-        <a id="download-portable-link" class="btn">Download Versão Portable</a>
-      </div>
-    </section>
+          <button
+            id="theme-toggle"
+            class="theme-toggle"
+            type="button"
+            aria-label="Ativar modo claro"
+            title="Alternar tema"
+          >
+            <span class="icon-sun">☀</span>
+            <span class="icon-moon">☾</span>
+          </button>
+        </div>
+      </nav>
 
-    <section class="section">
-      <h2>🚀 Funcionalidades</h2>
+      <section class="hero">
+        <article class="hero-main">
+          <p class="eyebrow">Bot para lives na Twitch</p>
+          <h1>Sistema de Gachapon com pontos do canal.</h1>
+          <p class="lead">
+            O Sucatas Bot cuida do processo de Gachapon no seu chat para você
+            focar no conteúdo. Instale, conecte e execute campanhas sem dor de
+            cabeça.
+          </p>
 
-      <div class="card">✔️ Sorteios automáticos via chat da Twitch</div>
+          <div class="cta-group">
+            <a id="download-link" class="btn btn-primary"
+              >Download versão .exe</a
+            >
+            <a id="download-portable-link" class="btn btn-secondary"
+              >Download versão portable</a
+            >
+          </div>
 
-      <div class="card">✔️ Fácil integração com stream</div>
+          <div class="stats">
+            <div class="stat">
+              <div class="stat-value">Personalizável</div>
+              <div class="stat-label">Conteúdo personalizável e fácil.</div>
+            </div>
+            <div class="stat">
+              <div class="stat-value">Tempo real</div>
+              <div class="stat-label">Resgates do chat e comandos.</div>
+            </div>
+          </div>
+        </article>
 
-      <!-- <div class="card">✔️ Controle total dos participantes</div> -->
+        <aside class="hero-side">
+          <h2 class="mini-title">Por que usar durante a live?</h2>
+          <ul class="check-list">
+            <li>Automatiza inscrições de participantes com regras claras.</li>
+            <li>Reduz erros manuais e aumenta a confiança do público.</li>
+            <li>Fluxo simples para campanhas pequenas e grandes.</li>
+            <li>Ideal para eventos, metas e ativações de comunidade.</li>
+          </ul>
+        </aside>
+      </section>
 
-      <div class="card">✔️ Sistema simples e eficiente</div>
-    </section>
+      <section class="features">
+        <article class="feature-card">
+          <h3>Integração enxuta</h3>
+          <p>
+            Fluxo de uso direto no chat para entrar, acompanhar e finalizar
+            esquema de Gachapon e sorteios.
+          </p>
+        </article>
+        <article class="feature-card">
+          <h3>Experiência transparente</h3>
+          <p>Participantes acompanham o resultado sem ruídos no processo.</p>
+        </article>
+        <article class="feature-card">
+          <h3>Pronto para crescer</h3>
+          <p>
+            Base ideal para evoluir com novos comandos e recursos para a
+            comunidade.
+          </p>
+        </article>
+      </section>
+    </div>
 
     <script>
       const DOWNLOAD_INSTALLER_URL =
@@ -127,6 +571,7 @@
       const downloadPortableLink = document.getElementById(
         "download-portable-link",
       );
+      const themeToggle = document.getElementById("theme-toggle");
 
       downloadLink.href = DOWNLOAD_INSTALLER_URL;
       downloadLink.target = "_blank";
@@ -135,6 +580,29 @@
       downloadPortableLink.href = DOWNLOAD_PORTABLE_URL;
       downloadPortableLink.target = "_blank";
       downloadPortableLink.rel = "noopener noreferrer";
+
+      const updateThemeToggleLabel = () => {
+        const isLight =
+          document.documentElement.getAttribute("data-theme") === "light";
+        themeToggle.setAttribute(
+          "aria-label",
+          isLight ? "Ativar modo escuro" : "Ativar modo claro",
+        );
+      };
+
+      updateThemeToggleLabel();
+
+      themeToggle.addEventListener("click", () => {
+        const currentTheme =
+          document.documentElement.getAttribute("data-theme") === "light"
+            ? "light"
+            : "dark";
+        const nextTheme = currentTheme === "light" ? "dark" : "light";
+
+        document.documentElement.setAttribute("data-theme", nextTheme);
+        localStorage.setItem("theme", nextTheme);
+        updateThemeToggleLabel();
+      });
     </script>
   </body>
 </html>
