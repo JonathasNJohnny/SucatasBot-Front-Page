@@ -512,7 +512,10 @@
             <a id="download-link" class="btn btn-primary"
               >Download versão .exe</a
             >
-            <a id="download-portable-link" class="btn btn-secondary"
+            <a
+              id="download-portable-link"
+              class="btn btn-secondary"
+              title="Temporariamente Pausado"
               >Download versão portable</a
             >
           </div>
@@ -564,9 +567,8 @@
 
     <script>
       const DOWNLOAD_INSTALLER_URL =
-        "https://download1586.mediafire.com/itk8zy5btulgbjYan48wGdhTgke2FV50ymyf3epOh5EPk5waeuLoIA22ZiOce4UVcmlT1-KxIJOixYDj26rUSBE94eMaX8ZwcqhJ9jAY-5J7Alxkk5DEkD-qkAOMG8jaMj5eDQ04dvz7O_sF9_bJGN3VuCm_REJJnB8jxCSsyOU9fmMw/ouomk4c83pwdolh/Sucatas+Bot+1.0.0.exe";
-      const DOWNLOAD_PORTABLE_URL =
-        "https://download1590.mediafire.com/xqwnwwviyqogaIJrJZaGTKb6NxoWYwmWszEhQZosdaWKavE1y19E2NSpzGZl_CdIU-WpXZekO0bFdgjFs75aNRzT8nNF_4K5oyLdclazPRpRiMHSUyqQF_iX6jlVUeRG6FpEB8aP_R7aZsAhxnrbkso74-dAFpSGEU2Cv-WGmmkcZv4N/pors5al7dx3sqkp/SucatasBot.zip";
+        "https://download854.mediafire.com/odk1gawk10pgDNKXX7dko0L4eH9N72nOQ9xQnQAm_lfqgkU06vTKKuOQgGV48W6XFghAMyxptyI-bi6vvz5cottJd3m3btp3ZdWxOUymU2zDreolPnq19yr6ygEwAK4DZDkA8EBTR-GMpRS7ehjkuUTVPVeqyu2ouuwxovfdpbzDE9E/oxwqvoukdjc355a/Sucatas+Bot+Setup+2.2.2.exe";
+      const DOWNLOAD_PORTABLE_URL = "";
 
       const downloadLink = document.getElementById("download-link");
       const downloadPortableLink = document.getElementById(
@@ -574,13 +576,27 @@
       );
       const themeToggle = document.getElementById("theme-toggle");
 
-      downloadLink.href = DOWNLOAD_INSTALLER_URL;
-      downloadLink.target = "_blank";
-      downloadLink.rel = "noopener noreferrer";
+      if (DOWNLOAD_INSTALLER_URL) {
+        downloadLink.href = DOWNLOAD_INSTALLER_URL;
+        downloadLink.target = "_blank";
+        downloadLink.rel = "noopener noreferrer";
+      } else {
+        downloadPortableLink.addEventListener("click", (e) => {
+          e.preventDefault();
+          showToast("Download .Exe temporariamente indisponível 🚫");
+        });
+      }
 
-      downloadPortableLink.href = DOWNLOAD_PORTABLE_URL;
-      downloadPortableLink.target = "_blank";
-      downloadPortableLink.rel = "noopener noreferrer";
+      if (DOWNLOAD_PORTABLE_URL) {
+        downloadPortableLink.href = DOWNLOAD_PORTABLE_URL;
+        downloadPortableLink.target = "_blank";
+        downloadPortableLink.rel = "noopener noreferrer";
+      } else {
+        downloadPortableLink.addEventListener("click", (e) => {
+          // e.preventDefault();
+          showToast("Download portable temporariamente indisponível 🚫");
+        });
+      }
 
       const updateThemeToggleLabel = () => {
         const isLight =
