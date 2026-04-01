@@ -20,6 +20,35 @@
           document.documentElement.setAttribute("data-theme", savedTheme);
         }
       })();
+
+      downloadLink = document.getElementById("download-link");
+
+      async function setLatestDownload() {
+        try {
+          const res = await fetch(
+            "https://api.github.com/repos/JonathasNJohnny/SucatasBot/releases/latest",
+          );
+
+          const data = await res.json();
+
+          // encontra o asset .exe
+          const asset = data.assets.find((a) =>
+            a.name.toLowerCase().endsWith(".exe"),
+          );
+
+          if (asset) {
+            downloadLink.href = asset.browser_download_url;
+            downloadLink.target = "_blank";
+            downloadLink.rel = "noopener noreferrer";
+          } else {
+            console.warn("Nenhum .exe encontrado na release");
+          }
+        } catch (err) {
+          console.error("Erro ao buscar release:", err);
+        }
+      }
+
+      setLatestDownload();
     </script>
 
     <style>
