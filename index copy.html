@@ -519,6 +519,48 @@
         }
       }
 
+      .toast {
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        background: var(--panel);
+        border: 1px solid var(--line);
+        color: var(--text);
+        padding: 14px 18px;
+        border-radius: 12px;
+        box-shadow: var(--shadow-strong);
+        font-size: 0.95rem;
+        font-weight: 500;
+        animation:
+          slide-in 300ms ease forwards,
+          slide-out 300ms ease 2700ms forwards;
+        z-index: 9999;
+        max-width: 320px;
+        word-wrap: break-word;
+      }
+
+      @keyframes slide-in {
+        from {
+          transform: translateX(400px);
+          opacity: 0;
+        }
+        to {
+          transform: translateX(0);
+          opacity: 1;
+        }
+      }
+
+      @keyframes slide-out {
+        from {
+          transform: translateX(0);
+          opacity: 1;
+        }
+        to {
+          transform: translateX(400px);
+          opacity: 0;
+        }
+      }
+
       @media (max-width: 640px) {
         .topbar {
           align-items: flex-start;
@@ -539,6 +581,13 @@
         .hero-side {
           padding: 22px;
           border-radius: 18px;
+        }
+
+        .toast {
+          top: 10px;
+          right: 10px;
+          left: 10px;
+          max-width: none;
         }
       }
     </style>
@@ -632,12 +681,6 @@
               Combina sorteios instantâneos com campanhas de longa duração.
             </li>
           </ul>
-          <div class="notice-box">
-            <p>
-              <strong>Aviso:</strong> A primeira execução pode demorar um pouco,
-              seja paciente,
-            </p>
-          </div>
         </aside>
       </section>
 
@@ -667,11 +710,48 @@
     </div>
 
     <script>
+      const DOWNLOAD_PORTABLE_URL = "";
+      const DOWNLOAD_INSTALLER_URL =
+        "https://download1585.mediafire.com/ki4awuw9s0xgU-YE85uJ9_ASLPgiCwseyoYpzF3XDpLqjHw4-0CaS0mrZMnCzfv-fznHtRfEz-PT7FQt2pC64qWpgx6vpyGH7eVeMkKhKKEfazvlpt1R_C7oJZuOm5xJ2cQi_OTRXJs2K3ltyyayHAFg4UqIHYB1pICOmvfVxTrzL-Q/19ony6atftf4irg/Sucatas+Bot.exe";
+
       const downloadLink = document.getElementById("download-link");
       const downloadPortableLink = document.getElementById(
         "download-portable-link",
       );
       const themeToggle = document.getElementById("theme-toggle");
+
+      function showToast(message) {
+        const toast = document.createElement("div");
+        toast.className = "toast";
+        toast.textContent = message;
+        document.body.appendChild(toast);
+        setTimeout(() => toast.remove(), 3000);
+      }
+
+      if (DOWNLOAD_PORTABLE_URL) {
+        downloadPortableLink.href = DOWNLOAD_PORTABLE_URL;
+        downloadPortableLink.target = "_blank";
+        downloadPortableLink.rel = "noopener noreferrer";
+      } else {
+        downloadPortableLink.addEventListener("click", (e) => {
+          e.preventDefault();
+          showToast("⏳ Download indisponível no momento");
+        });
+      }
+
+      if (DOWNLOAD_INSTALLER_URL) {
+        downloadLink.href = DOWNLOAD_INSTALLER_URL;
+        downloadLink.target = "_blank";
+        downloadLink.rel = "noopener noreferrer";
+        downloadLink.addEventListener("click", (e) => {
+          showToast("⏳ Primeira execução pode demorar um pouco...");
+        });
+      } else {
+        downloadLink.addEventListener("click", (e) => {
+          e.preventDefault();
+          showToast("Download indisponível no momento");
+        });
+      }
 
       const updateThemeToggleLabel = () => {
         const isLight =
